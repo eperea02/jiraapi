@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"github.com/andygrunwald/go-jira"
-	"github.com/jessevdk/go-flags"
-	"os"
+    "fmt"
+    "github.com/andygrunwald/go-jira"
+    "github.com/jessevdk/go-flags"
+    "os"
 )
+
 
 type Options struct {
 	Summary     string   `short:"s" long:"summary" description:"Issue summary" required:"true"`

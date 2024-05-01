@@ -12,10 +12,26 @@ ENV PYTHONUNBUFFERED 1
 
 RUN chmod 777 /tmp
 
-RUN apt-get update && apt-get -yqq install build-essential bash git tmux curl vim dnsutils krb5-user libpam-krb5 python3-kerberos gcc libkrb5-dev python3-dev libffi-dev libssl-dev libldap2-dev libsasl2-dev golang && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -yqq install build-essential bash git tmux curl vim dnsutils krb5-user libpam-krb5 python3-kerberos gcc libkrb5-dev python3-dev libffi-dev libssl-dev libldap2-dev libsasl2-dev && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 RUN curl http://certificates.intel.com/repository/certificates/IntelSHA256RootCA-Base64.crt  > /etc/ssl/certs/ca-certificates.crt
+
+# Remove the old Go package if it exists
+# RUN apt-get remove -y golang
+
+# Set the Go version
+ENV GO_VERSION 1.17.2
+
+# Download and install the latest Go
+RUN curl -LO https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
+    && rm go${GO_VERSION}.linux-amd64.tar.gz
+
+# Add Go to the PATH
+ENV PATH $PATH:/usr/local/go/bin
+
+
 
 # create root directory for our project in the container
 RUN mkdir /app
@@ -40,5 +56,5 @@ RUN cp /app/.tmux.conf /root/.tmux.conf
 # RUN cat /tmp/IntelSHA256RootCA.crt > /app/ssl/IntelSHA256RootCA-Base64.crt
 # ENV SSL_CERT_FILE /app/ssl/IntelSHA256RootCA-Base64.crt
 
-ENTRYPOINT ["/bin/bash"]
-CMD []
+ENTRYPOINT ["/app/ijira.py"]
+# CMD []

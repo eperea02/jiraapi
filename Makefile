@@ -41,6 +41,12 @@ rebuild:					## Rebuild and run Docker Image
 	make buildImage
 	make bindShell
 
+jira: 						## run Image
+	@if [ -z "$(ARGS)" ]; then echo "Please use ARGS to define arguments like ARGS=\"show --username eperea\""; exit 1; fi
+	@if [ -z "$(shell docker images -q ${JIRAAPI}:latest)" ]; then echo "Docker image ${JIRAAPI}:latest does not exist. Please build the image first using 'make buildImage' or 'make buildUbuntu'"; exit 1; fi
+	@docker run --env-file .env -it -p 8080:8080 ${JIRAAPI}:latest $(ARGS)
+
+
 shellDev:					## [Dev] - Bring up shell of devservice container for checking environment
 	docker run -it --entrypoint /bin/bash --env-file .env -p 8000:8000 ${JIRAAPI}:latest
 
