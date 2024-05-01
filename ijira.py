@@ -7,8 +7,6 @@ from utils.api import create_jira_issue, get_jira_instance, show_my_current_issu
 from utils.arg_parser import get_parser
 from utils.consts import project, token
 
-load_dotenv()
-
 
 def main():
     if not token:

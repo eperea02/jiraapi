@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 server = os.getenv("JIRA_SERVER", "https://jira.devtools.intel.com/")
 username = os.getenv("JIRA_USERNAME", "eperea")
 token = os.getenv("JIRA_TOKEN", False)
