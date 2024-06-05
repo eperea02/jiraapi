@@ -1,12 +1,13 @@
 .DEFAULT_GOAL:=help
 
 
-JIRAAPI := jiraapi
+JIRAAPI := ijira
 
 .PHONY: build run install
 
 
 SHELL := /bin/bash
+IJIRA_IMAGE_HARBOR := amr-registry.caas.intel.com/ec-fieldengineering/${JIRAAPI}:latest
 
 test: 						## Run Unit Tests
 	@coverage run -m pytest
@@ -31,11 +32,16 @@ docker:						## Build and run Docker Image
 	make buildImage
 	make runImage
 
+buildTagAndPushImage: 		## Build Current Image and push it to harbor
+	@docker build ${BUILD_ARGS} -t ${JIRAAPI}:latest . 
+	@docker tag ${JIRAAPI}:latest ${IJIRA_IMAGE_HARBOR}
+	@docker push ${IJIRA_IMAGE_HARBOR}
+
 buildImage: 				## Build Current Image
-	@docker build ${BUILD_ARGS} --no-cache -t ${JIRAAPI}:latest . 
+	@docker build ${BUILD_ARGS} -t ${JIRAAPI}:latest . 
 
 runImage: 					## Build Current Image
-	docker run -it -p 8000:8000 --env-file .env ${JIRAAPI}:latest 
+	@docker run -it -e JIRA_SERVER=${JIRA_SERVER} -e JIRA_USERNAME=${JIRA_USERNAME} -e JIRA_PASSWORD=${JIRA_PASSWORD} -e JIRA_PROJECT=${JIRA_PROJECT} -p 8000:8000 ${JIRAAPI}:latest 
 
 rebuild:					## Rebuild and run Docker Image
 	make buildImage

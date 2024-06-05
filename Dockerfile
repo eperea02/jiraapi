@@ -52,6 +52,7 @@ RUN pip install -r requirements.txt
 # Copy the current directory contents into the container at /app
 COPY . /app/
 RUN cp /app/.tmux.conf /root/.tmux.conf
+RUN chmod 777 /app/ijira
 
 # RUN cat /tmp/IntelSHA256RootCA.crt > /app/ssl/IntelSHA256RootCA-Base64.crt
 # ENV SSL_CERT_FILE /app/ssl/IntelSHA256RootCA-Base64.crt
