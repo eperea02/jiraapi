@@ -27,6 +27,20 @@ lint:						## Lint code using flake
 fixlint:					## Autofix linting with autoflake8
 	autoflake8 -r -i  --exit-zero-even-if-changed --remove-duplicate-keys --remove-unused-variables .
 
+docker:						## Build and run Docker Image
+	make buildImage
+	make runImage
+
+buildImage: 				## Build Current Image
+	@docker build ${BUILD_ARGS} --no-cache -t ${JIRAAPI}:latest . 
+
+runImage: 					## Build Current Image
+	docker run -it -p 8000:8000 --env-file .env ${JIRAAPI}:latest 
+
+rebuild:					## Rebuild and run Docker Image
+	make buildImage
+	make bindShell
+
 jira: 						## run Image
 	@if [ -z "$(ARGS)" ]; then echo "Please use ARGS to define arguments like ARGS=\"show --username eperea\""; exit 1; fi
 	@if [ -z "$(shell docker images -q ${JIRAAPI}:latest)" ]; then echo "Docker image ${JIRAAPI}:latest does not exist. Please build the image first using 'make buildImage' or 'make buildUbuntu'"; exit 1; fi
@@ -37,7 +51,10 @@ shellDev:					## [Dev] - Bring up shell of devservice container for checking env
 	docker run -it --entrypoint /bin/bash --env-file .env -p 8000:8000 ${JIRAAPI}:latest
 
 bindShell: 					## Bind do the docker shell
-	docker run -it --entrypoint /bin/bash -v /$(shell pwd):/app --env-file .env  -p 8000:8000 ${JIRAAPI}:latest
+	docker run -it --entrypoint /bin/bash -v /$(shell pwd):/app -p 8000:8000 ${JIRAAPI}:latest
+
+install:					## Install the application into one file
+	pyinstaller ./ijira.py --onefile --name ijira
 
 testcreate:					## Test create command
 	python ijira.py create --summary "test summary" --description "test description" --assignee eperea --labels "common-tools"

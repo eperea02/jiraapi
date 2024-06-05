@@ -1,12 +1,9 @@
-#! /home/eperea/jiraapi/.venv/bin/python3
+#!/usr/bin/env python3
 from utils.api import create_jira_issue, get_jira_instance, show_my_current_issues
 from utils.arg_parser import get_parser
-from utils.consts import project, token
 
 
 def main():
-    if not token:
-        raise Exception("Token not configured")
 
     parser = get_parser()
     args = parser.parse_args()
@@ -16,7 +13,6 @@ def main():
         description = args.description if args.description else args.summary
         create_jira_issue(
             jira,
-            project,
             args.summary,
             description,
             args.labels,

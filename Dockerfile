@@ -56,5 +56,5 @@ RUN cp /app/.tmux.conf /root/.tmux.conf
 # RUN cat /tmp/IntelSHA256RootCA.crt > /app/ssl/IntelSHA256RootCA-Base64.crt
 # ENV SSL_CERT_FILE /app/ssl/IntelSHA256RootCA-Base64.crt
 
-ENTRYPOINT ["/app/ijira.py"]
+ENTRYPOINT ["python3","/app/ijira"]
 # CMD []
