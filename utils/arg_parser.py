@@ -16,9 +16,15 @@ def create_sub_parser(subparsers):
     labels = [label for label in label_mapping.keys()]
     create_parser = subparsers.add_parser("create", help="Create a JIRA issue.")
     create_parser.add_argument("--summary", required=True, help="Issue summary")
-    create_parser.add_argument("--description", required=True, help="Issue description")
+    create_parser.add_argument(
+        "--description",
+        help="Issue description - will default to summary if not provided",
+    )
     create_parser.add_argument("--labels", choices=labels, help="Issue labels")
     create_parser.add_argument("--assignee", required=True, help="Assignee username")
+    create_parser.add_argument(
+        "--story-points", default=1, type=int, help="Story Points to assign to the task"
+    )
 
 
 def show_sub_parser(subparsers):
