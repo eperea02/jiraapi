@@ -18,6 +18,7 @@ def get_jira_instance():
     )
 
 
+# Example jira issue in Rest API https://jira.devtools.intel.com/rest/api/2/issue/TWC4558-3339
 def create_jira_issue(
     jira, project_key, summary, description, label, assignee, story_points
 ):
