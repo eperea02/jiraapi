@@ -2,7 +2,6 @@ from pprint import pp
 
 import pandas as pd
 from jira import JIRA
-
 from utils.consts import board_id, label_mapping, password, project, server, username
 
 
@@ -17,11 +16,12 @@ def get_jira_instance():
 
 
 # Example jira issue in Rest API https://jira.devtools.intel.com/rest/api/2/issue/TWC4558-3339
-def create_jira_issue(jira, summary, description, label, assignee, story_points):
+def create_jira_issue(
+    jira, summary, description, label, assignee, story_points, backlog
+):
     try:
         labels = label_mapping.get(label).get("labels")
         epic_key = label_mapping.get(label).get("epic")
-        current_sprint = jira.sprints(board_id, state="active")[0]
 
         issue_dict = {
             "project": {"key": project},
@@ -30,9 +30,12 @@ def create_jira_issue(jira, summary, description, label, assignee, story_points)
             "issuetype": {"name": "Story"},
             "labels": labels,
             "assignee": {"name": assignee},
-            "customfield_11605": current_sprint.id,
             "customfield_11204": story_points,  # This is the story points
         }
+
+        if not backlog:
+            current_sprint = jira.sprints(board_id, state="active")[0]
+            issue_dict["customfield_11605"] = (current_sprint.id,)
 
         issue = jira.create_issue(issue_dict)
         jira.add_issues_to_epic(epic_key, [issue.key])

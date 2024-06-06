@@ -27,4 +27,21 @@ labels = {
         ],
         "epic": "TWCP155-112",
     },
+    "pe": {
+        "labels": [
+            "ec-pe",
+            "ec-project-enablement",
+            f"{current_year}-q{quarter}-project-enablement",
+            f"{current_year}-q{quarter}-project_enablement",
+        ],
+        "epic": "TWCP155-122",
+    },
+    "autodebug": {
+        "labels": [
+            "autodebug",
+            "autodebugapi",
+            f"{current_year}-q{quarter}-autodebug",
+        ],
+        "epic": "TWCP155-120",
+    },
 }

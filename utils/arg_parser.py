@@ -25,6 +25,12 @@ def create_sub_parser(subparsers):
     create_parser.add_argument(
         "--story-points", default=1, type=int, help="Story Points to assign to the task"
     )
+    create_parser.add_argument(
+        "--backlog",
+        action="store_true",
+        default=False,
+        help="Add story to backlog instead of current sprint",
+    )
 
 
 def show_sub_parser(subparsers):

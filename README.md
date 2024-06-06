@@ -5,7 +5,7 @@ To run this script copy the `run_ijira` bash script to your EC directory.
 Then export these variables:
 
 ```shell
-    export JIRA_USRNAME=<jira_username>
+    export JIRA_USERNAME=<jira_username>
     export JIRA_PASSWORD=<jira_password>
 ```
 

@@ -18,6 +18,7 @@ def main():
             args.labels,
             args.assignee,
             args.story_points,
+            args.backlog,
         )
     elif args.command == "show":
         show_my_current_issues(jira, args.username)
