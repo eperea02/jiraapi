@@ -1,0 +1,3 @@
+[submodule "jiracli"]
+	path = jiracli
+	url = https://github.com/eperea02/jiracli.git
