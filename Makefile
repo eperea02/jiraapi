@@ -1,7 +1,7 @@
 .DEFAULT_GOAL:=help
 
 
-JIRAAPI := ijira
+JIRAAPI := jiracli
 
 .PHONY: build run install
 
